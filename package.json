@@ -1,0 +1,16 @@
+{
+  "name": "contact-book",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Add and view your contacts",
+  "repository": "https://github.com/swarup-gaikwad/contact-book",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^0.9.0"
+  },
+  "scripts": {
+    "update-deps": "npm update",
+    "prestart": "npm install",
+    "start": "http-server -a localhost -p 8000 -c-1 ./app"
+  }
+}

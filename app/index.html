@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="contactApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Contact Book</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body ng-controller="contactCtrl as contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mt-10 text-center">Contact Book</h1>
+                <form class="mb-10" name="contactForm" ng-submit="contact.addContact(contactForm)" novalidate>
+                    <fieldset>
+                        <legend>Add Contact:</legend>
+
+                        <div class="form-row row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" name="fName" placeholder="First Name" ng-model="contact.person.firstname" required ng-maxlength="30">
+                                <div ng-messages="contactForm.fName.$error" ng-if="contactForm.fName.$touched" class="help-block">
+                                    <span ng-message="required">First Name is required.</span>
+                                    <span ng-message="maxlength">First Name is too long.</span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" name="lName" placeholder="Last Name" ng-model="contact.person.lastname" required ng-maxlength="30">
+                                <div ng-messages="contactForm.lName.$error" ng-if="contactForm.lName.$touched" class="help-block">
+                                    <span ng-message="required">Last Name is required.</span>
+                                    <span ng-message="maxlength">Last Name is too long.</span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="email" class="form-control" name="email" placeholder="Email" ng-model="contact.person.email" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
+                                <div ng-messages="contactForm.email.$error" ng-if="contactForm.email.$touched" class="help-block">
+                                    <span ng-message="required">Email is required.</span>
+                                    <span ng-message="pattern">This needs to be a valid email</span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control" name="mobile" placeholder="Phone Number" ng-model="contact.person.mobile" required ng-pattern="/^\d{10}$/">
+                                <div ng-messages="contactForm.mobile.$error" ng-if="contactForm.mobile.$touched" class="help-block">
+                                    <span ng-message="required">Mobile Number is required</span>
+                                    <span ng-message="pattern">Please enter a 10 digit number.</span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select name="status" class="form-control" ng-model="contact.person.status" required>
+                                    <option value="" disabled>Select Your Status</option>
+                                    <option ng-repeat="status in contact.status">{{status}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary" ng-disabled="contactForm.$invalid">Save</button>
+                                <button class="btn btn-default" ng-disabled="contactForm.$pristine" ng-click="contact.reset(contactForm)">Clear Form</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="font-weight-normal">Your Contacts:</h2>
+                <p ng-hide="contact.contacts">Your contact list is empty.</p>
+                <div class=" table-responsive" ng-show="contact.contacts">
+                    <table class="table table-bordered table-hover table-sm">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in contact.contacts track by $index">
+                                <td ng-bind="item.firstname "></td>
+                                <td ng-bind="item.lastname "></td>
+                                <td ng-bind="item.email "></td>
+                                <td ng-bind="item.mobile "></td>
+                                <td ng-bind="item.status "></td>
+                                <td>
+                                    <button class="btn btn-default btn-sm" ng-click="contact.editContact(item)">
+                                        <i class="fas fa-user-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" ng-click="contact.removeContact(item)">
+                                        <i class="fas fa-user-times"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js">></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
