@@ -8,7 +8,7 @@ To get you started you can simply clone the `contact-book` repository and instal
 
 ### Prerequisites
 
-You must have Node.js and its package manager (npm) installed. You can get them from [here][node].
+You must have Node.js and its package manager (npm) installed.
 
 ### Clone `contact-book`
 
@@ -33,4 +33,4 @@ The simplest way to start this server is:
 npm start
 ```
 
-Now browse to the app at [`localhost:8000/index.html`][local-app-url].
+Now browse to the app at [`localhost:8000/index.html`].
